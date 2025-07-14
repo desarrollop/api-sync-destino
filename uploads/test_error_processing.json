@@ -1,0 +1,22 @@
+{
+  "entity": "factura",
+  "recordCount": 1,
+  "data": {
+    "ENC": {
+      "SERIE": "TEST001",
+      "FECHA_FACTURA": "2024-01-15",
+      "CLIENTE": "Cliente de Prueba",
+      "TOTAL": 1500,
+      "DET": [
+        {
+          "ID_FACTURA_DET": 1,
+          "NUMERO_FACTURA": "F001",
+          "SERIE": "TEST001",
+          "PRODUCTO": "Producto de Prueba",
+          "CANTIDAD": 3,
+          "PRECIO": 500
+        }
+      ]
+    }
+  }
+}
