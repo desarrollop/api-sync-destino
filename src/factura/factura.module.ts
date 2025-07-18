@@ -8,9 +8,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { FacturaEnc } from './entities/factura-enc.entity';
 import { FacturaDet } from './entities/factura-det.entity';
 import { ErrorSync } from './entities/error-sync.entity';
+import { CuponesModule } from 'src/cupones/cupones.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([FacturaEnc, FacturaDet, ErrorSync])],
+  imports: [
+    TypeOrmModule.forFeature([FacturaEnc, FacturaDet, ErrorSync]),
+    CuponesModule
+  ],
   controllers: [FacturaController, ErrorSyncController, ErrorFileController],
   providers: [FacturaService, ErrorFileService],
   exports: [FacturaService, ErrorFileService],

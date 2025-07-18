@@ -32,6 +32,9 @@ export class FacturaDet {
   @Column('money', { name: 'PRECIO_UNITARIO_VTA' })
   PRECIO_UNITARIO_VTA: number;
 
+  @Column('money', { name: 'PRECIO_ORIGINAL', nullable: true })
+  PRECIO_ORIGINAL?: number;
+
   @Column('money', { name: 'MONTO_DESCUENTO_DET' })
   MONTO_DESCUENTO_DET: number;
 

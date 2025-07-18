@@ -11,8 +11,10 @@ import {
   FacturaSyncData,
   FacturaProcessResult,
   FacturaEncSync,
-  FacturaDetSync
+  FacturaDetSync,
+  FacturaCuponSync
 } from './interfaces/factura-sync.interface';
+import { CuponesService } from 'src/cupones/cupones.service';
 
 @Injectable()
 export class FacturaService {
@@ -26,6 +28,7 @@ export class FacturaService {
     @InjectRepository(ErrorSync)
     private readonly errorSyncRepository: Repository<ErrorSync>,
     private readonly errorFileService: ErrorFileService,
+    private readonly cuponesService: CuponesService,
   ) { }
 
   // Método para guardar errores en la tabla ERROR_SYNC
@@ -92,8 +95,10 @@ export class FacturaService {
           message: 'Error al crear la factura'
         };
       }
-
+      // Procesamos los detalles de la factura
       await this.processFacturaDet(encData.ENC.DET);
+      // Procesamos los cupones de la factura
+      await this.processCupones(encData.ENC.CUPONES, encData.ENC.SERIE, encData.ENC.NUMERO_FACTURA);
 
       return {
         success: true,
@@ -126,6 +131,27 @@ export class FacturaService {
       return {
         success: false,
         message: `Error procesando factura: ${error.message}`
+      };
+    }
+  }
+
+  async processCupones(cuponesData: FacturaCuponSync[], serie: string, numeroFactura: number): Promise<{ success: boolean; count: number; message: string }> {
+    try {
+      this.logger.log(`📋 Procesando ${cuponesData.length} cupones`);
+      await this.cuponesService.insertarCupon(cuponesData, serie, numeroFactura);
+      this.logger.log(`✅ ${cuponesData.length} cupones procesados`);
+      return {
+        success: true,
+        count: cuponesData.length,
+        message: `Todos los cupones procesados exitosamente (${cuponesData.length})`
+      };
+    } catch (error) {
+      const errorMessage = `Error general procesando cupones: ${error.message}`;
+      this.logger.error('Error procesando cupones:', error);
+      return {
+        success: false,
+        count: 0,
+        message: errorMessage
       };
     }
   }

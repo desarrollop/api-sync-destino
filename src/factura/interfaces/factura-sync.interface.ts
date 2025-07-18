@@ -11,6 +11,7 @@ export interface FacturaDetSync {
   COSTO_UNITARIO_PROD: number;
   PRECIO_UNITARIO_VTA: number;
   MONTO_DESCUENTO_DET: number;
+  PRECIO_ORIGINAL: number;
   MONTO_IVA: number;
   SUBTOTAL_VENTAS: number;
   SUBTOTAL_GENERAL?: number;
@@ -46,6 +47,18 @@ export interface FacturaEncSync {
   ESTADO_CERTIFICACION?: string | null;
   CORR_CONTINGENCIA_INT?: number | null;
   DET: FacturaDetSync[];
+  CUPONES: FacturaCuponSync[];
+}
+
+// Interface para el cupón de factura
+export interface FacturaCuponSync {
+  ID: number;
+  NUMERO_CUPON: string;
+  NUMERO_PEDIDO: number;
+  SUCURSAL: number;
+  VENDEDOR_APLICA: number;
+  ESTADO: string;
+  FECHA: Date
 }
 
 // Interface para la estructura completa de sincronización

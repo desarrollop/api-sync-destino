@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { SyncModule } from './sync/sync.module';
 import { FacturaModule } from './factura/factura.module';
+import { CuponesModule } from './cupones/cupones.module';
 
 @Module({
   imports: [
@@ -43,6 +44,7 @@ import { FacturaModule } from './factura/factura.module';
     }),
     SyncModule,
     FacturaModule,
+    CuponesModule,
   ],
   controllers: [],
   providers: [],
