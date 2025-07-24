@@ -37,7 +37,7 @@ export interface FacturaEncSync {
   CODIGO_DE_CLIENTE: number;
   CODIGO_VENDEDOR: number;
   NUMERO_DE_PEDIDO: number;
-  PORC_DESCUENTO_GLOB: number;
+  PORC_DESCUENTO_GLOB?: number;
   FECHA_ANULACION?: string | null;
   USUARIO_ANULACION?: string | null;
   MOTIVO_ANULACION?: string | null;
@@ -58,7 +58,7 @@ export interface FacturaCuponSync {
   SUCURSAL: number;
   VENDEDOR_APLICA: number;
   ESTADO: string;
-  FECHA: Date
+  FECHA: Date;
 }
 
 // Interface para la estructura completa de sincronización
@@ -79,4 +79,4 @@ export interface FacturaProcessResult {
     message: string;
   };
   timestamp: string;
-} 
+}

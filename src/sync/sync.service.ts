@@ -29,7 +29,7 @@ export class SyncService {
 
   constructor(
     private readonly configService: ConfigService,
-    private readonly facturaService: FacturaService
+    private readonly facturaService: FacturaService,
   ) {
     // Configurar directorio de uploads con mejor práctica
     this.uploadDir = this.getUploadDirectory();
@@ -51,7 +51,9 @@ export class SyncService {
     const syncDataPath = this.configService.get<string>('SYNC_DATA_PATH');
     if (syncDataPath) {
       const syncUploadDir = path.join(syncDataPath, 'uploads');
-      this.logger.log(`📁 Usando directorio de sincronización: ${syncUploadDir}`);
+      this.logger.log(
+        `📁 Usando directorio de sincronización: ${syncUploadDir}`,
+      );
       return syncUploadDir;
     }
 
@@ -69,15 +71,33 @@ export class SyncService {
     switch (platform) {
       case 'win32':
         // Windows: C:\Users\{Usuario}\AppData\Local\api_gssync_destino\uploads
-        return path.join(homeDir, 'AppData', 'Local', 'api_gssync_destino', 'uploads');
+        return path.join(
+          homeDir,
+          'AppData',
+          'Local',
+          'api_gssync_destino',
+          'uploads',
+        );
 
       case 'darwin':
         // macOS: ~/Library/Application Support/api_gssync_destino/uploads
-        return path.join(homeDir, 'Library', 'Application Support', 'api_gssync_destino', 'uploads');
+        return path.join(
+          homeDir,
+          'Library',
+          'Application Support',
+          'api_gssync_destino',
+          'uploads',
+        );
 
       case 'linux':
         // Linux: ~/.local/share/api_gssync_destino/uploads
-        return path.join(homeDir, '.local', 'share', 'api_gssync_destino', 'uploads');
+        return path.join(
+          homeDir,
+          '.local',
+          'share',
+          'api_gssync_destino',
+          'uploads',
+        );
 
       default:
         // Fallback: directorio temporal del sistema
@@ -94,7 +114,10 @@ export class SyncService {
       // Crear archivo .gitkeep para mantener la estructura
       const gitkeepPath = path.join(this.uploadDir, '.gitkeep');
       if (!fs.existsSync(gitkeepPath)) {
-        fs.writeFileSync(gitkeepPath, '# Este archivo mantiene la estructura del directorio\n');
+        fs.writeFileSync(
+          gitkeepPath,
+          '# Este archivo mantiene la estructura del directorio\n',
+        );
       }
     }
   }
@@ -102,7 +125,7 @@ export class SyncService {
   // Procesar el archivo subido
   async processUploadedFile(
     file: Express.Multer.File,
-    body: any
+    body: any,
   ): Promise<ProcessedFileResult> {
     try {
       // Obtener el nombre del archivo y la ruta de guardado
@@ -130,9 +153,8 @@ export class SyncService {
         recordCount: jsonData.recordCount,
         fileName,
         filePath,
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       };
-
     } catch (error) {
       this.logger.error('Error procesando archivo:', error);
       throw new Error(`Error procesando archivo: ${error.message}`);
@@ -171,8 +193,6 @@ export class SyncService {
     console.log(data);
   }
 
-
-
   // Guardar los datos no procesados
   private async saveUnprocessedData(entity: string, data: any[]) {
     this.logger.log(`💾 Guardando datos no procesados para entidad: ${entity}`);
@@ -187,9 +207,10 @@ export class SyncService {
         return [];
       }
 
-      const files = fs.readdirSync(this.uploadDir)
-        .filter(file => file.endsWith('.json'))
-        .map(file => {
+      const files = fs
+        .readdirSync(this.uploadDir)
+        .filter((file) => file.endsWith('.json'))
+        .map((file) => {
           const filePath = path.join(this.uploadDir, file);
           const stats = fs.statSync(filePath);
 
@@ -203,7 +224,9 @@ export class SyncService {
             entity = jsonData.entity;
             recordCount = jsonData.recordCount;
           } catch (error) {
-            this.logger.warn(`No se pudo leer información del archivo: ${file}`);
+            this.logger.warn(
+              `No se pudo leer información del archivo: ${file}`,
+            );
           }
 
           return {
@@ -212,7 +235,7 @@ export class SyncService {
             modified: stats.mtime,
             path: filePath,
             entity,
-            recordCount
+            recordCount,
           };
         });
 
@@ -238,8 +261,8 @@ export class SyncService {
         systemInfo: {
           nodeVersion: process.version,
           platform: process.platform,
-          uptime: process.uptime()
-        }
+          uptime: process.uptime(),
+        },
       };
     } catch (error) {
       this.logger.error('Error obteniendo estado del sistema:', error);
@@ -251,7 +274,7 @@ export class SyncService {
   private getEntitySummary(files: FileInfo[]) {
     const entityCount: { [key: string]: number } = {};
 
-    files.forEach(file => {
+    files.forEach((file) => {
       if (file.entity) {
         entityCount[file.entity] = (entityCount[file.entity] || 0) + 1;
       }
@@ -259,4 +282,4 @@ export class SyncService {
 
     return entityCount;
   }
-} 
+}
