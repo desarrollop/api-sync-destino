@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { SyncModule } from './sync/sync.module';
 import { FacturaModule } from './factura/factura.module';
 import { CuponesModule } from './cupones/cupones.module';
+import { OrigenModule } from './origen/origen.module';
 
 @Module({
   imports: [
@@ -28,7 +29,7 @@ import { CuponesModule } from './cupones/cupones.module';
         // Opciones de confianza en el servidor
         trustServerCertificate: true,
         // Opciones de aritmética de aborto
-        enableArithAbort: true
+        enableArithAbort: true,
       },
       // Opciones adicionales de conexión
       extra: {
@@ -39,14 +40,15 @@ import { CuponesModule } from './cupones/cupones.module';
         // Opciones de seguridad integrada
         IntegratedSecurity: false,
         // Opciones de tiempo de espera de conexión
-        connectionTimeout: 30000
-      }
+        connectionTimeout: 30000,
+      },
     }),
     SyncModule,
     FacturaModule,
     CuponesModule,
+    OrigenModule,
   ],
   controllers: [],
   providers: [],
 })
-export class AppModule { }
+export class AppModule {}
