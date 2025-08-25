@@ -13,7 +13,7 @@ export class SyncListaCuponesDet {
   })
   DESCRIPCION: string;
 
-  @Column({
+  @PrimaryColumn({
     name: 'CODIGO_CUPON',
     type: 'nvarchar',
     length: 50,
